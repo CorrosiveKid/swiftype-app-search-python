@@ -170,6 +170,61 @@ class Client:
         """
         return self.swiftype_session.request('delete', "engines/{}".format(engine_name))
 
+    def list_synonym_sets(self, engine_name, current=1, size=20):
+        """
+        Lists all synonym sets in engine.
+
+        :param engine_name: Name of the engine.
+        :param current: Page of synonym sets.
+        :param size: Number of synonym sets to return per page.
+        :return: List of synonym sets.
+        """
+        data = { 'page': { 'current': current, 'size': size } }
+        return self.swiftype_session.request('get', "engines/{}/synonyms".format(engine_name), json=data)
+
+    def get_synonym_set(self, engine_name, synonym_set_id):
+        """
+        Get a single synonym set.
+
+        :param engine_name: Name of the engine.
+        :param synonym_set_id: ID of the synonym set.
+        :return: A single synonym set.
+        """
+        return self.swiftype_session.request('get', "engines/{}/synonyms/{}".format(engine_name, synonym_set_id))
+
+    def create_synonym_set(self, engine_name, synonyms):
+        """
+        Create a synonym set.
+
+        :param engine_name: Name of the engine.
+        :param synonyms: List of synonyms.
+        :return: A list of synonyms that was created.
+        """
+        data = { 'synonyms': synonyms }
+        return self.swiftype_session.request('post', "engines/{}/synonyms".format(engine_name), json=data)
+
+    def update_synonym_set(self, engine_name, synonym_set_id, synonyms):
+        """
+        Update an existing synonym set.
+
+        :param engine_name: Name of the engine.
+        :param synonym_set_id: ID of the synonym set to update.
+        :param synonyms: The updated list of synonyms.
+        :return: The synonym set that was updated.
+        """
+        data = { 'synonyms': synonyms }
+        return self.swiftype_session.request('put', "engines/{}/synonyms/{}".format(engine_name, synonym_set_id), json=data)
+
+    def delete_synonym_set(self, engine_name, synonym_set_id):
+        """
+        Delete a synonym set.
+
+        :param engine_name: Name of the engine.
+        :param synonym_set_id: ID of the synonym set to be deleted.
+        :return: Delete status.
+        """
+        return self.swiftype_session.request('delete', "engines/{}/synonyms/{}".format(engine_name, synonym_set_id))
+
     def search(self, engine_name, query, options=None):
         """
         Search an engine. See https://swiftype.com/documentation/app-search/ for more details
