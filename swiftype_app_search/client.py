@@ -41,7 +41,7 @@ class Client:
 
         :param current: Page of documents
         :param size: Number of documents to return per page
-        :return: List of documemts.
+        :return: List of documents.
         """
         data = { 'page': { 'current': current, 'size': size } }
         return self.swiftype_session.request('get', "engines/{}/documents/list".format(engine_name), json=data)
